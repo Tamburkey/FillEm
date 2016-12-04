@@ -25,7 +25,7 @@ ___2___ can be standard data types such as string, number, dictionary, tuple,
 and ___4___ or can be more complicated such as objects and lambda functions.
 '''
 
-# Hard start phrase - taken from starter code
+# Hard start phrase - taken from Monty Python
 cp_h = '''We're knights of the round ___1___. We dance when e're we're ___2___. 
 We do routines, and chorus-scenes, with footwork ___3___. We dine well here in ___4___.
 We eat ___5___, and ___6___, and ___7___ a lot.
