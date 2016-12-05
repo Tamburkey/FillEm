@@ -36,6 +36,7 @@ We're knights of the round ___1___. Our shows are ___8___. But many \n\
 times, we're given rhymes, that are quite ___9___. We're opera mad in \n\
 ___4___. We sing from the ___10___ a lot."]
 
+gues_min = 0
 blank_number = 1  # guessing blank number
 answers_list = [["world", "python", "print", "html"],
                 ["function", "arguments", "none", "list"],
@@ -94,85 +95,88 @@ def difficulty(a):
         sys.exit()
 
 
-def is_number(s):
-    """Takes in string (s) and return True if number, False if not
+def is_number(str_in):
+    """Takes in string (str_in) and return True if number, False if not
     Found here - http://stackoverflow.com/questions/354038/how-do-
     i-check-if-a-string-is-a-number-float-in-python"""
     try:
-        float(s)
+        float(str_in)
         return True
     except ValueError:
         return False
 
 
-def guess_pick(b):
-    """Take in input (b), validate as int, and return integer (guesses_left)"""
+def guess_pick(int_in):
+    """Take in input (int_in), validate as int, and return integer
+    (guesses_left)"""
     global guesses_left
-    while is_number(b) == False:
+    while is_number(int_in) == False:
         print "Try a number this time. "
-        b = (raw_input("Choose the number of guesses before you \
+        int_in = (raw_input("Choose the number of guesses before you \
     lose."))
-    if b <= 0:
+    if int_in <= gues_min:
         print "YOU LOSE! GOOD DAY, SIR!"
         sys.exit()
-    b = int(b)
-    guesses_left = b
+    int_in = int(int_in)
+    guesses_left = int_in
     return guesses_left
 
 
-def new_game(a, b, c):
-    """Takes in initial game state variables (a), (b), and (c) and displays new
-    game start"""
-    print "You have chosen: " + a
+def new_game(dif, start_guess, start_phrase):
+    """Take in initial game state variables: (dif), (start_guess), and
+    (start_phrase) and prints new game start"""
+    print "You have chosen: " + dif
     print " "
-    print "You will get " + str(b) + " guesses per problem."
+    print "You will get " + str(start_guess) + " guesses per problem."
     print " "
     print "Current phrase:"
-    print c
+    print start_phrase
 
 
-def play(c, d):
-    """Take in integers (c) and (d), loops over them prompting user for input
-    while updating (c) and (d), return updated integer (blank_number)"""
+def play(gues_start, blank_start):
+    """Take in integers (gues_start) and (blank_start), loops over them
+    prompting user for inputwhile updating (gues_start) and (blank_start),
+    return updated integer (blank_number)"""
     global current_phrase
     global answers
     global current_guess
     global blank_number
-    while c > 0 and d < len(answers):
-        if current_guess == answers[d-1]:  # Correct input
+    while gues_start > gues_min and blank_start < len(answers):
+        if current_guess == answers[blank_start-1]:  # Correct input
             print "Correct answer!"
             print " "
-            correct(d, current_guess)
+            correct(blank_start, current_guess)
             print "Current phrase:"
             print current_phrase
-            d += 1
+            blank_start += 1
             current_guess = raw_input("What word should fill in the blank(s) \
-for " + "___" + str(d) + "___" + "? :").lower()
+for " + "___" + str(blank_start) + "___" + "? :").lower()
         else:  # Incorrect input
-            c -= 1
-            if c == 1:
+            gues_start -= 1
+            if gues_start == 1:
                 print "Wrong answer, try again. Guesses left: " + \
-                str(c) + " Make it count!"
+                str(gues_start) + " Make it count!"
                 current_guess = raw_input("What word should fill in the blank(s) \
-for " + "___" + str(d) + "___" + "? :").lower()
-            elif c > 0:
-                print "Wrong answer, try again. Guesses left: " + str(c)
+for " + "___" + str(blank_start) + "___" + "? :").lower()
+            elif gues_start > gues_min:
+                print "Wrong answer, try again. Guesses left: " + \
+                str(gues_start)
                 current_guess = raw_input("What word should fill in the blank(s) \
-for " + "___" + str(d) + "___" + "? :").lower()
+for " + "___" + str(blank_start) + "___" + "? :").lower()
             else:
                 print "YOU LOSE! GOOD DAY, SIR!"
-    blank_number = d
+    blank_number = blank_start
     return blank_number
 
 
-def win(a):
-    """Take in integer (a), compare to len(answers), update and print
-    (current_phrase) """
+def win(win_round_number):
+    """Take in integer (win_round_number), compare to len(answers),
+    update and print (current_phrase) """
     global current_phrase
     global blank_number
     global current_guess
     global answers
-    if a == len(answers):
+    if win_round_number == len(answers):
         print " "
         print "Completed phrase:"
         correct(blank_number, current_guess)
@@ -194,7 +198,7 @@ guess_pick(guesses_left)  # Validates and returns number of guesses left
 
 new_game(diff_input, guesses_left, current_phrase)  # Displays new game state
 
-current_guess = raw_input("What word should fill in the blank(s) for " + 
+current_guess = raw_input("What word should fill in the blank(s) for " +
 "___" + str(blank_number) + "___" + "? :").lower()  # First guess
 
 play(guesses_left, blank_number)  # Start of standard game loop
