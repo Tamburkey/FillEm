@@ -5,12 +5,12 @@ import sys
 current_phrase_list = ["A common first thing to do in a language is display \
     'Hello ___1___!'  In ___2___ this is particularly easy; all you have to \
     do is type in: ___3___ 'Hello ___1___!' \
-\
+\n\
     Of course, that isn't a very useful thing to do. However, it is an \
     example of how to output to the user using the ___3___ command, and \
     produces a program which does something, so it is useful in that \
     capacity.\
-\
+\n\
     It may seem a bit odd to do something in a Turing complete language that \
     can be done even more easily with an ___4___ file in a browser, but it's \
     a step in learning ___2___ syntax, and that's really its purpose.",
@@ -18,7 +18,7 @@ current_phrase_list = ["A common first thing to do in a language is display \
     "A ___1___ is created with the def keyword. You specify the inputs\
     a ___1___ takes by adding ___2___ separated by commas between the \
     parentheses.\
-\
+\n\
     ___1___s by default return ___3___ if you don't specify the value to \
     return.___2___ can be standard data types such as string, number, \
     dictionary, tuple,and ___4___ or can be more complicated such as \
@@ -28,7 +28,7 @@ current_phrase_list = ["A common first thing to do in a language is display \
     ___2___. We do routines, and chorus-scenes, with footwork ___3___. We \
     dine well here in ___4___. We eat ___5___, and ___6___, and ___7___ a \
     lot.\
-\
+\n\
     We're knights of the round ___1___. Our shows are ___8___. But many \
     times,we're given rhymes, that are quite ___9___. We're opera mad in \
     ___4___. We sing from the ___10___ a lot."]
@@ -102,63 +102,97 @@ def is_number(s):
         return False
 
 
+def guess_pick(b):
+    """Take in input (b), validate as int, and return integer (guesses_left)"""
+    global guesses_left
+    while is_number(b) == False:
+        print "Try a number this time. "
+        b = (raw_input("Choose the number of guesses before you \
+    lose."))
+    if b <= 0:
+        print "YOU LOSE! GOOD DAY, SIR!"
+        sys.exit()
+    b = int(b)
+    guesses_left = b
+    return guesses_left
+
+
+def new_game(a, b, c):
+    """Takes in initial game state variables (a), (b), and (c) and displays new 
+    game start"""
+    print "You have chosen: " + a
+    print " "
+    print "You will get " + str(b) + " guesses per problem."
+    print " "
+    print "Current phrase:"
+    print c
+
+
+def play(c, d):
+    """Take in integers (c) and (d), loops over them prompting user for input
+    while updating (c) and (d), return updated integer (blank_number)"""
+    global current_phrase
+    global answers
+    global current_guess
+    global blank_number
+    while c > 0 and d < len(answers):
+        if current_guess == answers[d-1]:  # Correct input
+            print "Correct answer!"
+            print " "
+            correct(d, current_guess)
+            print "Current phrase:"
+            print current_phrase
+            d += 1
+            current_guess = raw_input("What word should fill in the blank(s) \
+                for " + "___" + str(d) + "___" + "? :").lower()
+        else:  # Incorrect input
+            c -= 1
+            if c == 1:
+                print "Wrong answer, try again. Guesses left: " + \
+                str(c) + " Make it count!"
+                current_guess = raw_input("What word should fill in the blank(s) \
+                    for " + "___" + str(d) + "___" + "? :").lower()
+            elif c > 0:
+                print "Wrong answer, try again. Guesses left: " + str(c)
+                current_guess = raw_input("What word should fill in the blank(s) \
+                    for " + "___" + str(d) + "___" + "? :").lower()
+            else:
+                print "YOU LOSE! GOOD DAY, SIR!"
+    blank_number = d
+    return blank_number
+
+
+def win(a):
+    global current_phrase
+    global blank_number
+    global current_guess
+    global answers
+    if a == len(answers):
+        print " "
+        print "Completed phrase:"
+        correct(blank_number, current_guess)
+        print current_phrase
+        print " "
+        print "Congratulations!!!!... You won!"
+
+
 """ START OF GAME - Difficulty selection"""
 diff_input = raw_input("Choose a difficulty: easy, medium, or hard.\
     Incorrect input will result in a loss.").lower()
-difficulty(diff_input)
+
+difficulty(diff_input)  # Returns current phrase and answers for selected difficulty
 
 guesses_left = (raw_input("Choose the number of guesses before you \
     lose."))
-while is_number(guesses_left) == False:
-    print "Try a number this time. "
-    guesses_left = (raw_input("Choose the number of guesses before you \
-    lose."))
-guesses_left = int(guesses_left)
-if guesses_left <= 0:
-    print "YOU LOSE! GOOD DAY, SIR!"
-    sys.exit()
 
-print "You have chosen: " + diff_input
-print " "
-print "You will get " + str(guesses_left) + " guesses per problem."
-print " "
-print "Current phrase:"
-print current_phrase
+guess_pick(guesses_left)  # Validates and returns number of guesses left
 
-# First guess
+new_game(diff_input, guesses_left, current_phrase)  # Displays new game state
+
 current_guess = raw_input("What word should fill in the blank(s) for " +
-    "___" + str(blank_number) + "___" + "? :").lower()
+    "___" + str(blank_number) + "___" + "? :").lower()  # First guess
 
-# Start of standard game loop
-while guesses_left > 0 and blank_number < len(answers):
-    if current_guess == answers[blank_number-1]:  # Correct input
-        print "Correct answer!"
-        print " "
-        correct(blank_number, current_guess)
-        print "Current phrase:"
-        print current_phrase
-        blank_number += 1
-        current_guess = raw_input("What word should fill in the blank(s) \
-            for " + "___" + str(blank_number) + "___" + "? :").lower()
-    else:  # Incorrect input
-        guesses_left -= 1
-        if guesses_left == 1:
-            print "Wrong answer, try again. Guesses left: " + \
-            str(guesses_left) + " Make it count!"
-            current_guess = raw_input("What word should fill in the blank(s) \
-                for " + "___" + str(blank_number) + "___" + "? :").lower()
-        elif guesses_left > 0:
-            print "Wrong answer, try again. Guesses left: " + str(guesses_left)
-            current_guess = raw_input("What word should fill in the blank(s) \
-                for " + "___" + str(blank_number) + "___" + "? :").lower()
-        else:
-            print "YOU LOSE! GOOD DAY, SIR!"
+play(guesses_left, blank_number) # Start of standard game loop, 
 
-# Win Condition
-if blank_number == len(answers):
-    print " "
-    print "Completed phrase:"
-    correct(blank_number, current_guess)
-    print current_phrase
-    print " "
-    print "Congratulations!!!!... You won!"
+win(blank_number)  # Win condition
+
