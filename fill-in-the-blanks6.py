@@ -2,36 +2,39 @@
 import sys
 
 # Easy start phrase - taken from starter code
-current_phrase_list = ["A common first thing to do in a language is display \
-    'Hello ___1___!'  In ___2___ this is particularly easy; all you have to \
-    do is type in: ___3___ 'Hello ___1___!' \
+current_phrase_list = [
+"A common first thing to do in a language is display\n\
+'Hello ___1___!'  In ___2___ this is particularly easy; all you have to\n\
+do is type in: ___3___ 'Hello ___1___!'\n\
 \n\
-    Of course, that isn't a very useful thing to do. However, it is an \
-    example of how to output to the user using the ___3___ command, and \
-    produces a program which does something, so it is useful in that \
-    capacity.\
+Of course, that isn't a very useful thing to do. However, it is an \n\
+example of how to output to the user using the ___3___ command, and \n\
+produces a program which does something, so it is useful in that \n\
+capacity.\n\
 \n\
-    It may seem a bit odd to do something in a Turing complete language that \
-    can be done even more easily with an ___4___ file in a browser, but it's \
-    a step in learning ___2___ syntax, and that's really its purpose.",
+It may seem a bit odd to do something in a Turing complete language \n\
+that can be done even more easily with an ___4___ file in a browser,\n\
+but it's a step in learning ___2___ syntax, and that's really its \n\
+purpose.",
+
 # Medium start phrase - taken from starter code
-    "A ___1___ is created with the def keyword. You specify the inputs\
-    a ___1___ takes by adding ___2___ separated by commas between the \
-    parentheses.\
+"A ___1___ is created with the def keyword. You specify the inputs\n\
+a ___1___ takes by adding ___2___ separated by commas between the\n\
+parentheses.\n\
 \n\
-    ___1___s by default return ___3___ if you don't specify the value to \
-    return.___2___ can be standard data types such as string, number, \
-    dictionary, tuple,and ___4___ or can be more complicated such as \
-    objects and lambda functions.",\
+___1___s by default return ___3___ if you don't specify the value to \n\
+return.___2___ can be standard data types such as string, number, \n\
+dictionary, tuple,and ___4___ or can be more complicated such as \n\
+objects and lambda functions.",
 # Hard start phrase - taken from Monty Python
-    "We're knights of the round ___1___. We dance when e're we're \
-    ___2___. We do routines, and chorus-scenes, with footwork ___3___. We \
-    dine well here in ___4___. We eat ___5___, and ___6___, and ___7___ a \
-    lot.\
+"We're knights of the round ___1___. We dance when e're we're \n\
+___2___. We do routines, and chorus-scenes, with footwork ___3___. We \n\
+dine well here in ___4___. We eat ___5___, and ___6___, and ___7___ a \n\
+lot.\n\
 \n\
-    We're knights of the round ___1___. Our shows are ___8___. But many \
-    times,we're given rhymes, that are quite ___9___. We're opera mad in \
-    ___4___. We sing from the ___10___ a lot."]
+We're knights of the round ___1___. Our shows are ___8___. But many \n\
+times,we're given rhymes, that are quite ___9___. We're opera mad in \n\
+___4___. We sing from the ___10___ a lot."]
 
 blank_number = 1  # guessing blank number
 answers_list = [["world", "python", "print", "html"],
@@ -144,18 +147,18 @@ def play(c, d):
             print current_phrase
             d += 1
             current_guess = raw_input("What word should fill in the blank(s) \
-                for " + "___" + str(d) + "___" + "? :").lower()
+for " + "___" + str(d) + "___" + "? :").lower()
         else:  # Incorrect input
             c -= 1
             if c == 1:
                 print "Wrong answer, try again. Guesses left: " + \
                 str(c) + " Make it count!"
                 current_guess = raw_input("What word should fill in the blank(s) \
-                    for " + "___" + str(d) + "___" + "? :").lower()
+for " + "___" + str(d) + "___" + "? :").lower()
             elif c > 0:
                 print "Wrong answer, try again. Guesses left: " + str(c)
                 current_guess = raw_input("What word should fill in the blank(s) \
-                    for " + "___" + str(d) + "___" + "? :").lower()
+for " + "___" + str(d) + "___" + "? :").lower()
             else:
                 print "YOU LOSE! GOOD DAY, SIR!"
     blank_number = d
@@ -163,6 +166,8 @@ def play(c, d):
 
 
 def win(a):
+    """Take in integer (a), compare to len(answers), update and print
+    (current_phrase) """
     global current_phrase
     global blank_number
     global current_guess
@@ -177,20 +182,20 @@ def win(a):
 
 
 """ START OF GAME - Difficulty selection"""
-diff_input = raw_input("Choose a difficulty: easy, medium, or hard.\
-    Incorrect input will result in a loss.").lower()
+diff_input = raw_input("Choose a difficulty: easy, medium, or hard. \
+Incorrect input will result in a loss.").lower()
 
 difficulty(diff_input)  # Returns current phrase and answers for difficulty
 
 guesses_left = (raw_input("Choose the number of guesses before you \
-    lose."))
+lose."))
 
 guess_pick(guesses_left)  # Validates and returns number of guesses left
 
 new_game(diff_input, guesses_left, current_phrase)  # Displays new game state
 
-current_guess = raw_input("What word should fill in the blank(s) for " +
-    "___" + str(blank_number) + "___" + "? :").lower()  # First guess
+current_guess = raw_input("What word should fill in the blank(s) for " + 
+"___" + str(blank_number) + "___" + "? :").lower()  # First guess
 
 play(guesses_left, blank_number)  # Start of standard game loop
 
