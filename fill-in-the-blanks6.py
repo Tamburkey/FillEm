@@ -33,7 +33,7 @@ dine well here in ___4___. We eat ___5___, and ___6___, and ___7___ a \n\
 lot.\n\
 \n\
 We're knights of the round ___1___. Our shows are ___8___. But many \n\
-times,we're given rhymes, that are quite ___9___. We're opera mad in \n\
+times, we're given rhymes, that are quite ___9___. We're opera mad in \n\
 ___4___. We sing from the ___10___ a lot."]
 
 blank_number = 1  # guessing blank number
