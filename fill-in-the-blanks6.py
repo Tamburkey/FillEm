@@ -118,7 +118,7 @@ def guess_pick(b):
 
 
 def new_game(a, b, c):
-    """Takes in initial game state variables (a), (b), and (c) and displays new 
+    """Takes in initial game state variables (a), (b), and (c) and displays new
     game start"""
     print "You have chosen: " + a
     print " "
@@ -180,7 +180,7 @@ def win(a):
 diff_input = raw_input("Choose a difficulty: easy, medium, or hard.\
     Incorrect input will result in a loss.").lower()
 
-difficulty(diff_input)  # Returns current phrase and answers for selected difficulty
+difficulty(diff_input)  # Returns current phrase and answers for difficulty
 
 guesses_left = (raw_input("Choose the number of guesses before you \
     lose."))
@@ -192,7 +192,6 @@ new_game(diff_input, guesses_left, current_phrase)  # Displays new game state
 current_guess = raw_input("What word should fill in the blank(s) for " +
     "___" + str(blank_number) + "___" + "? :").lower()  # First guess
 
-play(guesses_left, blank_number) # Start of standard game loop, 
+play(guesses_left, blank_number)  # Start of standard game loop
 
 win(blank_number)  # Win condition
-
